@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:02:53 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/25 11:03:11 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/28 16:18:11 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,22 @@
 
 # define ODD 1
 # define EVEN 2
-
-
 /**************struct definitions***************/
-
 typedef struct s_fork
 {
-	int				is_locked;// This is a measure to check if locking a fork is viable and to save time for each thread.
-					//  note: This is mostly important when mutex is locked (is_locked == 1). If it is 0 then philo will have to use pthread_mutex_lock()
+	int				is_locked;
 	unsigned long	last_time_used;
-	pthread_mutex_t flock;
+	pthread_mutex_t	flock;
 }t_fork;
 
 typedef struct s_data
 {
-	int				num_of_philo;
-	unsigned int	num_of_meals;
-	int 			is_dead;
-	int 			how_many_finished;
-	int				reference;
-	pthread_mutex_t data_lock;
-	pthread_mutex_t print;
+	unsigned int	num_of_philo;
+	unsigned long	num_of_meals;
+	int				is_dead;
+	unsigned int	how_many_finished;
+	pthread_mutex_t	data_lock;
+	pthread_mutex_t	print;
 }t_data;
 
 typedef struct s_time
@@ -62,23 +57,23 @@ typedef struct s_time
 typedef struct s_philo
 {
 	int					id;
-	int					times_eaten;//for the purposes of ending the simulation
-	unsigned long		last_meal;//how long has philo gone without eating
-	int					state;//as in: eating, sleeping, thinking
-	t_fork				right_fork;//fork of n philo
-	t_fork				*left_fork;//fork of the n+1 philo
-	t_data				*data;//point to data struct with times to eat...
+	unsigned long		times_eaten;
+	unsigned long		last_meal;
+	int					state;
+	t_fork				right_fork;
+	t_fork				*left_fork;
+	t_data				*data;
 	t_time				*time;
 	struct timeval		*timebase;
 }t_philo;
 
 /**************function definitions***************/
 
-long int		digitsum(char *number, int	num_ofdigits);
+long int		digitsum(char *number, int num_ofdigits);
 void			checkif_number(char **argv, int *ret_address, int i, int *j);
 int				is_integer(void *x);
 long int		ft_atol(char *string);
-char			*ft_substr(char  *s, unsigned int start, size_t len);
+char			*ft_substr(char *s, unsigned int start, size_t len);
 size_t			ft_strlen(char *str);
 char			**ft_split(char *s, char c);
 int				count_args(char **args);
@@ -92,13 +87,15 @@ void			free_philos(long *args_array);
 void			initialize_datastruct(t_data *data, long *arg_array, int argc);
 void			initialize_timestruct(t_time *time, long *arg_array);
 void			*routine(void *philo);
-unsigned long   get_time();
+unsigned long	get_time(void);
 void			print_log(t_philo *philo, int action);
-void			free_assets(t_philo *philo_array, long int *arg_array, pthread_t *pthreads);
+void			free_assets(t_philo *philo_array, long int *arg_array,
+					pthread_t *pthreads);
 void			ft_msleep(unsigned long microseconds);
 void			threads_join(pthread_t *thread_array, t_data *data);
 int				isphilo_even(t_philo *philo);
-void			sort_eaters(t_philo *philo);
 char			*ft_lutoa(unsigned long n);
 char			*ft_itoa(int n);
+int				looking2eat(t_philo *philo);
+void			check_me_tummy(t_philo *philo);
 #endif

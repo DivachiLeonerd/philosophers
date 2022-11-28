@@ -6,61 +6,32 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:23:49 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/25 11:12:32 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/28 16:29:30 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//Checks if philo died of starvation. Only updates in-philo stats
-static void	check_me_tummy(t_philo *philo)
+void	check_me_tummy(t_philo *philo)
 {
 	if ((get_time() - philo->last_meal) >= philo->time->to_die)
 		philo->state = DEAD;
 	return ;
 }
 
-static int	looking2eat(t_philo *philo)
+static int	update_meals_eaten(t_philo *philo)
 {
-		//nota:se o philo n conseguir dar lock no primeiro fork, entao nao tenta dar lock no segundo
-		// se conseguir dar lock no primeiro, aí tenta esperar pelo segundo fork
-		if (isphilo_even(philo))//philo is even
-		{
-			if (philo->right_fork.is_locked == 0)
-			{
-				pthread_mutex_lock(&(philo->right_fork.flock));
-				philo->right_fork.is_locked = 1;
-				print_log(philo, EATING);
-				//tenho de fazer com q ele continue a checkar se morreu antes de entrar no lock
-				while (philo->left_fork->is_locked == 1)
-				{
-					check_me_tummy(philo);
-					if (philo->state == DEAD)
-						return (0);
-				}
-				pthread_mutex_lock(&(philo->left_fork->flock));
-				philo->left_fork->is_locked = 1;
-				print_log(philo, EATING);
-				return (1);
-			}
-		}
-		if (!isphilo_even(philo)) //philo is odd
-		{
-			if (philo->left_fork->is_locked == 0)
-			{
-				pthread_mutex_lock(&(philo->left_fork->flock));
-				philo->left_fork->is_locked = 1;
-				print_log(philo, EATING);
-				pthread_mutex_lock(&(philo->right_fork.flock));
-				philo->right_fork.is_locked = 1;
-				print_log(philo, EATING);
-				return (1);
-			}
-		}
+	pthread_mutex_lock(&(philo->data->data_lock));
+	if (philo->times_eaten == philo->data->num_of_meals)
+	{
+		philo->data->how_many_finished++;
+		pthread_mutex_unlock(&(philo->data->data_lock));
+		return (1);
+	}
+	pthread_mutex_unlock(&(philo->data->data_lock));
 	return (0);
 }
 
-//have to update with the global variables and tells program if one philo died (ret == 0)
 static void	update_philo_state(t_philo *philo)
 {
 	if (philo->state == ASLEEP)
@@ -92,8 +63,6 @@ void	*routine(void *philosopher)
 	while (1)
 	{
 		check_me_tummy(philo);
-		if (philo->data->is_dead == 1)
-			return (NULL);
 		if (philo->state == DEAD)
 		{
 			pthread_mutex_lock(&(philo->data->data_lock));
@@ -101,9 +70,20 @@ void	*routine(void *philosopher)
 				print_log(philo, DEAD);
 			philo->data->is_dead = 1;
 			pthread_mutex_unlock(&(philo->data->data_lock));
-			return (NULL);
+			break ;
 		}
-			update_philo_state(philo);
+		if (philo->data->is_dead == 1)
+			break ;
+		update_philo_state(philo);
+		if (update_meals_eaten(philo))
+			return (NULL);
+		pthread_mutex_lock(&(philo->data->data_lock));
+		if (philo->data->how_many_finished == philo->data->num_of_philo)
+		{
+			pthread_mutex_unlock(&(philo->data->data_lock));
+			break ;
+		}
+		pthread_mutex_unlock(&(philo->data->data_lock));
 	}
 	return (NULL);
 }

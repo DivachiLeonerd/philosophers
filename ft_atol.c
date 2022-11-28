@@ -6,33 +6,11 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 15:05:15 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/06 11:20:17 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/28 13:15:56 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// static int	word_count(char *s, char c)
-// {
-// 	int		i;
-// 	int		counter;
-
-// 	counter = 0;
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		if (s[i] != c)
-// 		{
-// 			counter++;
-// 			i++;
-// 			while (s[i] != c && s[i])
-// 				i++;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (counter);
-// }
 
 int	ft_isdigit(char c)
 {
@@ -43,7 +21,7 @@ int	ft_isdigit(char c)
 
 int	count_digit(char *string)
 {
-	int i;
+	int	i;
 	int	count;
 
 	count = 0;
@@ -75,18 +53,18 @@ long int	ft_pow(int x, int power)
 	return (num);
 }
 
-long int	digitsum(char *number, int	num_ofdigits)
+long int	digitsum(char *number, int num_ofdigits)
 {
 	static long int	num;
 	static int		i;
 	int				start;
-	
+
 	start = i;
 	if (i == 0)
 		num = 0;
 	if (num_ofdigits == 0)
 		return (0);
-	num = num + ((long)(number[i] - 48) * ft_pow(10, num_ofdigits - 1));
+	num = num + (((long)(number[i] - 48)) * ft_pow(10, num_ofdigits - 1));
 	i++;
 	if (i < (num_ofdigits + start))
 		return (digitsum(number, num_ofdigits - 1));
@@ -102,8 +80,7 @@ long int	ft_atol(char *string)
 
 	i = 0;
 	num = 0;
-	i = count_digit(string);//count until string[index] == ' '
-	num = digitsum(string, i);//sum() is recursive and calls itself with i--;
+	i = count_digit(string);
+	num = digitsum(string, i);
 	return (num);
-	
 }

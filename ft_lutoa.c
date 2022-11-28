@@ -6,12 +6,13 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 13:24:44 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/24 12:46:43 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/28 12:58:30 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "philo.h"
+
 static	char	*alloc_string(unsigned long n);
 static	char	*reverse_string(char *string);
 

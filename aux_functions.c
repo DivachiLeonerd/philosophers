@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 21:20:15 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/24 13:21:24 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/28 16:16:47 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ int	count_args(char **args)
 	return (i);
 }
 
-unsigned long   get_time()
+unsigned long	get_time(void)
 {
-    struct timeval timebase;
-    unsigned long   time;
-	
-    gettimeofday(&timebase, NULL);
-    time = (timebase.tv_sec * 1000) + (timebase.tv_usec / 1000);
-    return (time);
+	struct timeval	timebase;
+	unsigned long	time;
+
+	gettimeofday(&timebase, NULL);
+	time = (timebase.tv_sec * 1000) + (timebase.tv_usec / 1000);
+	return (time);
 }
 
-void ft_msleep(unsigned long microseconds)
+void	ft_msleep(unsigned long microseconds)
 {
 	unsigned long	current_time;
 	unsigned long	initial_time;
@@ -64,7 +64,7 @@ void ft_msleep(unsigned long microseconds)
 	time_slept = 0;
 	while (time_slept < microseconds)
 	{
-		current_time = get_time(); 
+		current_time = get_time();
 		time_slept = current_time - initial_time;
 	}
 	return ;
@@ -72,7 +72,7 @@ void ft_msleep(unsigned long microseconds)
 
 void	print_log(t_philo *philo, int action)
 {
-	unsigned long timepassed;
+	unsigned long	timepassed;
 	char			*timestamp;
 	char			*id;
 
@@ -80,7 +80,6 @@ void	print_log(t_philo *philo, int action)
 	timepassed = get_time() - philo->time->start;
 	timestamp = ft_lutoa(timepassed);
 	id = ft_itoa(philo->id);
-	//printf("%lums:Philosopher %d", timepassed - philo->time->start, philo->id);
 	write(1, timestamp, ft_strlen(timestamp));
 	write(1, "ms:Philosopher ", 15);
 	write(1, id, ft_strlen(id));
