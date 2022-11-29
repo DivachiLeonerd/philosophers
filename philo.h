@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:02:53 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/28 16:18:11 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/29 15:40:32 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define ASLEEP 1
 # define THINKING 2
 # define DEAD 3
+# define FORK 4
 
 # define ODD 1
 # define EVEN 2
@@ -97,5 +98,6 @@ int				isphilo_even(t_philo *philo);
 char			*ft_lutoa(unsigned long n);
 char			*ft_itoa(int n);
 int				looking2eat(t_philo *philo);
-void			check_me_tummy(t_philo *philo);
+int				check_me_tummy(t_philo *philo);
+void			write_template(char *timestamp, char *id);
 #endif

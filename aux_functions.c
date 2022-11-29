@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 21:20:15 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/28 16:16:47 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/29 15:40:07 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,20 @@ void	ft_msleep(unsigned long microseconds)
 
 void	print_log(t_philo *philo, int action)
 {
-	unsigned long	timepassed;
 	char			*timestamp;
 	char			*id;
 
 	pthread_mutex_lock(&(philo->data->print));
-	timepassed = get_time() - philo->time->start;
-	timestamp = ft_lutoa(timepassed);
+	timestamp = ft_lutoa(get_time() - philo->time->start);
 	id = ft_itoa(philo->id);
-	write(1, timestamp, ft_strlen(timestamp));
-	write(1, "ms:Philosopher ", 15);
-	write(1, id, ft_strlen(id));
+	write_template(timestamp, id);
 	if (action == EATING)
+	{
+		write(1, " has taken a fork\n", 18);
+		write_template(timestamp, id);
+		write(1, " is eating\n", 11);
+	}
+	else if (action == FORK)
 		write(1, " has taken a fork\n", 18);
 	else if (action == ASLEEP)
 		write(1, " is sleeping\n", 13);
