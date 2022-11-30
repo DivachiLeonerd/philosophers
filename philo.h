@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:02:53 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/29 15:40:32 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/30 12:38:43 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_data
 	unsigned int	num_of_philo;
 	unsigned long	num_of_meals;
 	int				is_dead;
-	unsigned int	how_many_finished;
 	pthread_mutex_t	data_lock;
 	pthread_mutex_t	print;
 }t_data;
@@ -100,4 +99,5 @@ char			*ft_itoa(int n);
 int				looking2eat(t_philo *philo);
 int				check_me_tummy(t_philo *philo);
 void			write_template(char *timestamp, char *id);
+void			*routine2(void *philo);
 #endif

@@ -6,11 +6,20 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:53:47 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/28 12:46:09 by afonso           ###   ########.fr       */
+/*   Updated: 2022/11/29 17:04:14 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void    *routine2(void *philo)
+{
+    print_log(philo, EATING);
+    print_log(philo, FORK);
+    print_log(philo, ASLEEP);
+    print_log(philo, DEAD);
+    return (NULL);
+}
 
 int	main(int argc, char **argv)
 {
