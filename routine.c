@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:23:49 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/30 14:51:15 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/02 14:43:58 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ int	check_me_tummy(t_philo *philo)
 	return (0);
 }
 
-static int	update_meals_eaten(t_philo *philo)
-{
-	if (philo->times_eaten == philo->data->num_of_meals)
-		return (1);
-	return (0);
-}
-
 static void	update_philo_state(t_philo *philo)
 {
 	if (philo->state == ASLEEP)
@@ -51,9 +44,7 @@ static void	update_philo_state(t_philo *philo)
 				print_log(philo, THINKING);
 		}
 	}
-	else if ((philo->state == THINKING && looking2eat(philo)))
-		philo->state = EATING;
-	if (philo->state == EATING)
+	else if (philo->state == THINKING && looking_to_eat(philo))
 	{
 		philo->last_meal = get_time();
 		ft_msleep(philo->time->to_eat);
@@ -73,18 +64,15 @@ void	*routine(void *philosopher)
 	t_philo	*philo;
 
 	philo = (t_philo *) philosopher;
-	philo->last_meal = get_time();
 	if (isphilo_even(philo))
+		ft_msleep(10);
+	// print_log(philo, 200);
+	while (!check_me_tummy(philo))
 	{
-		usleep(10000);
-	}
-	print_log(philo, 200);
-	while (1)
-	{
-		if (check_me_tummy(philo))
-			break ;
 		update_philo_state(philo);
-		if (update_meals_eaten(philo))
+		// if (update_meals_eaten(philo))
+		// 	break ;
+		if (philo->times_eaten == philo->data->num_of_meals)
 			break ;
 	}
 	return (NULL);

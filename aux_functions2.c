@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:40:36 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/30 14:14:42 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/02 14:47:28 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	isphilo_even(t_philo *philo)
 // 	return (0);
 // }
 
-int	looking2eat(t_philo *philo)
+int	looking_to_eat(t_philo *philo)
 {
 	while (!check_me_tummy(philo))
 	{

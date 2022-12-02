@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:41:01 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/30 14:37:33 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/01 19:05:47 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	set_leftforks(t_philo *philo, unsigned int numof_philo,
 		philo->left_fork = &(array[numof_philo + 1].right_fork);
 	else
 		philo->left_fork = &(array[0].right_fork);
-	philo->right_fork.last_time_used = philo->time->start;
 	return ;
 }
 
@@ -62,15 +61,17 @@ t_philo	*load_philos(t_data *data, t_time *time)
 pthread_t	*load_pthreads(t_philo *philo_array, int numof_philo)
 {
 	pthread_t	*pthreads;
+	int			temp;
 
 	pthreads = malloc(numof_philo * sizeof(pthread_t));
+	temp = 0;
 	numof_philo--;
 	(philo_array[0]).time->start = get_time();
-	while (numof_philo > -1)
+	while (numof_philo >= temp)
 	{
-		pthread_create(&(pthreads[numof_philo]), 0, routine,
-			(void *)(&philo_array[numof_philo]));
-		numof_philo--;
+		pthread_create(&(pthreads[temp]), NULL, routine,
+			(void *)(&philo_array[temp]));
+		temp++;
 	}
 	return (pthreads);
 }

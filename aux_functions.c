@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 21:20:15 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/30 14:44:08 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/01 17:46:20 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,58 +70,27 @@ void	ft_msleep(unsigned long microseconds)
 	return ;
 }
 
-// void	print_log(t_philo *philo, int action)
-// {
-// 	unsigned long	timestamp;
-
-// 	timestamp = get_time() - philo->time->start;
-// 	pthread_mutex_lock(&(philo->data->print));
-// 	printf("%lums:Philosopher %d", timestamp, philo->id);
-// 	if (action == EATING)
-// 	{
-// 		printf(" has taken a fork\n");
-// 		printf("%lums:Philosopher %d", timestamp, philo->id);
-// 		printf(" is eating\n");
-// 	}
-// 	else if (action == FORK)
-// 		printf(" has taken a fork\n");
-// 	else if (action == ASLEEP)
-// 		printf(" is sleeping\n");
-// 	else if (action == THINKING)
-// 		printf(" is thinking\n");
-// 	else
-// 		printf(" died\n");
-// 	pthread_mutex_unlock(&(philo->data->print));
-// 	return ;
-// }
-
 void	print_log(t_philo *philo, int action)
 {
-	char			*timestamp;
-	char			*id;
+	unsigned long	timestamp;
 
+	timestamp = get_time() - philo->time->start;
 	pthread_mutex_lock(&(philo->data->print));
-	timestamp = ft_lutoa(get_time() - philo->time->start);
-	id = ft_itoa(philo->id);
-	write_template(timestamp, id);
+	printf("%lu %d", timestamp, philo->id);
 	if (action == EATING)
-	{
-		write(1, " has taken a fork\n", 18);
-		write_template(timestamp, id);
-		write(1, " is eating\n", 11);
-	}
+		printf(" has taken a fork\n%lu %d is eating\n",
+			timestamp, philo->id);
 	else if (action == FORK)
-		write(1, " has taken a fork\n", 18);
+		printf(" has taken a fork\n");
 	else if (action == ASLEEP)
-		write(1, " is sleeping\n", 13);
+		printf(" is sleeping\n");
 	else if (action == THINKING)
-		write(1, " is thinking\n", 13);
+		printf(" is thinking\n");
 	else if (action == 200)
-		write(1, " is awake\n", 10);
+		printf(" is awake\n");
 	else
-		write(1, " died\n", 6);
-	free(timestamp);
-	free(id);
+		printf(" died\n");
 	pthread_mutex_unlock(&(philo->data->print));
 	return ;
 }
+
