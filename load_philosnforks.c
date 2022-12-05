@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:41:01 by afonso            #+#    #+#             */
-/*   Updated: 2022/11/30 14:37:33 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/05 12:32:58 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ static void	set_philo(t_philo *philo, int numof_philo,
 static void	set_leftforks(t_philo *philo, unsigned int numof_philo,
 		unsigned int total_philo, t_philo *array)
 {
-	if (numof_philo != total_philo - 1)
-		philo->left_fork = &(array[numof_philo + 1].right_fork);
+	if (numof_philo != 0)
+		philo->left_fork = &(array[numof_philo - 1].right_fork);
 	else
-		philo->left_fork = &(array[0].right_fork);
-	philo->right_fork.last_time_used = philo->time->start;
+		philo->left_fork = &(array[total_philo - 1].right_fork);
 	return ;
 }
 
