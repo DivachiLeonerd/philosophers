@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 21:20:15 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/05 19:03:07 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/05 20:14:21 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ void	print_log(t_philo *philo, int action)
 
 	timestamp = get_time() - philo->time->start;
 	pthread_mutex_lock(&(philo->data->print));
-	printf("%lu\t%d\t", timestamp, philo->id);
+	if(check_me_tummy(philo))
+	{
+		pthread_mutex_unlock(&(philo->data->print));
+		return;
+	}
+	printf("%lu %d ", timestamp, philo->id);
 	if (action == EATING)
 	{
 		printf("is eating\n");
@@ -81,11 +86,11 @@ void	print_log(t_philo *philo, int action)
 	else if (action == FORK)
 		printf("has taken a fork\n");
 	else if (action == ASLEEP)
+	{
 		printf("is sleeping\n");
+	}
 	else if (action == THINKING)
 		printf("is thinking\n");
-	else
-		printf("died\n");
 	pthread_mutex_unlock(&(philo->data->print));
 	return ;
 }
