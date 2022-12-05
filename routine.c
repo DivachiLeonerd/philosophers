@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:23:49 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/05 18:35:26 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/05 20:14:35 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	check_me_tummy(t_philo *philo)
 		pthread_mutex_unlock(&(philo->data->data_lock));
 		return (1);
 	}
-	else if (get_time() - philo->last_meal > philo->time->to_die)
+	if (get_time() - philo->last_meal > philo->time->to_die)
 	{
 		philo->data->is_dead = 1;
-		print_log(philo, DEAD);
+		printf("%lu %d died\n", get_time()-philo->time->start, philo->id);
 		pthread_mutex_unlock(&(philo->data->data_lock));
 		return (1);
 	}
@@ -53,10 +53,10 @@ void	*routine(void *philosopher)
 		printf("%ums:Philosopher 1 died\n", philo->time->to_die);
 		return (NULL);
 	}
+
 	while (1)
 	{
-		
-		if (looking2eat(philo) && !check_me_tummy(philo))
+		if (looking2eat(philo))
 		{
 			if (update_meals_eaten(philo))
 				return (NULL);
