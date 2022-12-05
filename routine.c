@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:23:49 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/02 14:43:58 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/05 18:35:26 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_me_tummy(t_philo *philo)
 		pthread_mutex_unlock(&(philo->data->data_lock));
 		return (1);
 	}
-	else if ((get_time() - philo->last_meal) >= philo->time->to_die)
+	else if (get_time() - philo->last_meal > philo->time->to_die)
 	{
 		philo->data->is_dead = 1;
 		print_log(philo, DEAD);
@@ -31,32 +31,11 @@ int	check_me_tummy(t_philo *philo)
 	return (0);
 }
 
-static void	update_philo_state(t_philo *philo)
+static int	update_meals_eaten(t_philo *philo)
 {
-	if (philo->state == ASLEEP)
-	{
-		if (!check_me_tummy(philo))
-		{
-			print_log(philo, ASLEEP);
-			ft_msleep(philo->time->to_sleep);
-			philo->state = THINKING;
-			if (!check_me_tummy(philo))
-				print_log(philo, THINKING);
-		}
-	}
-	else if (philo->state == THINKING && looking_to_eat(philo))
-	{
-		philo->last_meal = get_time();
-		ft_msleep(philo->time->to_eat);
-		pthread_mutex_lock(&(philo->right_fork.flock));
-		philo->right_fork.is_locked = 0;
-		pthread_mutex_unlock(&(philo->right_fork.flock));
-		pthread_mutex_lock(&(philo->left_fork->flock));
-		philo->left_fork->is_locked = 0;
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		philo->state = ASLEEP;
-	}
-	return ;
+	if (philo->times_eaten == philo->data->num_of_meals)
+		return (1);
+	return (0);
 }
 
 void	*routine(void *philosopher)
@@ -64,16 +43,35 @@ void	*routine(void *philosopher)
 	t_philo	*philo;
 
 	philo = (t_philo *) philosopher;
-	if (isphilo_even(philo))
-		ft_msleep(10);
-	// print_log(philo, 200);
-	while (!check_me_tummy(philo))
+	philo->last_meal = philo->time->start;
+	//printf("start:%lu\n", get_time() - philo->time->start);
+	//printf("start2: %lu\n", get_time() - philo->time->start);
+	if (philo->data->num_of_philo == 1)
 	{
-		update_philo_state(philo);
-		// if (update_meals_eaten(philo))
-		// 	break ;
-		if (philo->times_eaten == philo->data->num_of_meals)
-			break ;
+		printf("0ms:Philosopher 1 has taken a fork\n");
+		ft_msleep(philo->time->to_die);
+		printf("%ums:Philosopher 1 died\n", philo->time->to_die);
+		return (NULL);
+	}
+	while (1)
+	{
+		
+		if (looking2eat(philo) && !check_me_tummy(philo))
+		{
+			if (update_meals_eaten(philo))
+				return (NULL);
+			if (!check_me_tummy(philo))
+				print_log(philo, ASLEEP);
+			else
+				return (NULL);
+			ft_msleep(philo->time->to_sleep);
+			if (!check_me_tummy(philo))
+				print_log(philo, THINKING);
+			else
+				return (NULL);
+		}
+		else
+			return (NULL);
 	}
 	return (NULL);
 }
