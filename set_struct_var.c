@@ -27,7 +27,6 @@ void	initialize_datastruct(t_data *data, long *arg_array, int argc)
 
 void	initialize_timestruct(t_time *time, long *arg_array)
 {
-	// time->start = get_time();
 	time->to_die = arg_array[1];
 	time->to_eat = arg_array[2];
 	time->to_sleep = arg_array[3];
