@@ -94,4 +94,3 @@ void	print_log(t_philo *philo, int action)
 	pthread_mutex_unlock(&(philo->data->print));
 	return ;
 }
-

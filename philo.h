@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:02:53 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/05 19:41:57 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/05 20:19:04 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 typedef struct s_fork
 {
 	int				is_locked;
-	unsigned long	last_time_used;
+	// unsigned long	last_time_used;
 	pthread_mutex_t	flock;
 }t_fork;
 
@@ -70,15 +70,10 @@ typedef struct s_philo
 /**************function definitions***************/
 
 long int		digitsum(char *number, int num_ofdigits);
-void			checkif_number(char **argv, int *ret_address, int i, int *j);
-int				is_integer(void *x);
 long int		ft_atol(char *string);
-char			*ft_substr(char *s, unsigned int start, size_t len);
 size_t			ft_strlen(char *str);
-char			**ft_split(char *s, char c);
 int				count_args(char **args);
 int				ft_isdigit(char c);
-int				how_many_char(char *s, char c, int wordnum);
 int				check_input(int argc, char **argv, long int	**arg_array);
 int				are_argsdigits(char **argv);
 t_philo			*load_philos(t_data *data, t_time *time);
@@ -96,7 +91,7 @@ void			threads_join(pthread_t *thread_array, t_data *data);
 int				isphilo_even(t_philo *philo);
 char			*ft_lutoa(unsigned long n);
 char			*ft_itoa(int n);
-int				looking2eat(t_philo *philo);
+int				looking_to_eat(t_philo *philo);
 int				check_me_tummy(t_philo *philo);
 void			write_template(char *timestamp, char *id);
 void			*routine2(void *philo);
