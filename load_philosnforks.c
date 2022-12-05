@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 16:41:01 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/05 12:32:58 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/05 15:34:30 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,16 @@ t_philo	*load_philos(t_data *data, t_time *time)
 pthread_t	*load_pthreads(t_philo *philo_array, int numof_philo)
 {
 	pthread_t	*pthreads;
+	int			temp;
 
 	pthreads = malloc(numof_philo * sizeof(pthread_t));
-	numof_philo--;
+	temp = 0;
 	(philo_array[0]).time->start = get_time();
-	while (numof_philo > -1)
+	while (temp < numof_philo)
 	{
-		pthread_create(&(pthreads[numof_philo]), 0, routine,
-			(void *)(&philo_array[numof_philo]));
-		numof_philo--;
+		pthread_create(&(pthreads[temp]), 0, routine,
+			(void *)(&philo_array[temp]));
+		temp++;
 	}
 	return (pthreads);
 }
