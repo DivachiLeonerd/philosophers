@@ -49,7 +49,7 @@ unsigned long	get_time(void)
 	struct timeval	timebase;
 
 	gettimeofday(&timebase, NULL);
-	return (timebase.tv_sec * 1000) + (timebase.tv_usec / 1000);
+	return ((timebase.tv_sec * 1000) + (timebase.tv_usec / 1000));
 }
 
 void	ft_msleep(t_philo *philo, unsigned long microseconds)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:02:53 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/06 14:53:54 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/06 18:28:22 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 typedef struct s_fork
 {
 	int				is_locked;
-	// unsigned long	last_time_used;
 	pthread_mutex_t	flock;
 }t_fork;
 
@@ -95,4 +94,5 @@ int				looking2eat(t_philo *philo);
 int				check_me_tummy(t_philo *philo);
 void			write_template(char *timestamp, char *id);
 void			*routine2(void *philo);
+int				one_philo(t_philo *philo);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:23:49 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/06 17:04:56 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/06 18:28:38 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,10 @@ void	*routine(void *philosopher)
 
 	philo = (t_philo *) philosopher;
 	philo->last_meal = philo->time->start;
-	//printf("start:%lu\n", get_time() - philo->time->start);
-	//printf("start2: %lu\n", get_time() - philo->time->start);
-	if (philo->data->num_of_philo == 1)
-	{
-		printf("0ms:Philosopher 1 has taken a fork\n");
-		ft_msleep(philo, philo->time->to_die);
-		printf("%ums:Philosopher 1 died\n", philo->time->to_die);
+	if (one_philo(philo))
 		return (NULL);
-	}
 	if (philo->id == 1 && philo->data->num_of_philo % 2)
-		ft_msleep(philo, philo->time->to_eat + philo->time->to_sleep - 200);
+		ft_msleep(philo, philo->time->to_eat + philo->time->to_sleep - 100);
 	while (1)
 	{
 		if (looking2eat(philo))
@@ -66,10 +59,10 @@ void	*routine(void *philosopher)
 			ft_msleep(philo, philo->time->to_sleep);
 			if (!print_log(philo, THINKING))
 				return (NULL);
-			ft_msleep(philo, 10);
+			ft_msleep(philo, 5);
 		}
 		else
-			return (NULL);
+			break ;
 	}
 	return (NULL);
 }

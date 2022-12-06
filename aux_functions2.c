@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_functions2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:40:36 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/06 14:40:29 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/06 18:27:35 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ int	isphilo_even(t_philo *philo)
 		return (1);
 }
 
+static int	check(t_philo *philo)
+{
+	if (check_me_tummy(philo))
+	{
+		pthread_mutex_unlock(&(philo->left_fork->flock));
+		pthread_mutex_unlock(&(philo->right_fork.flock));
+		return (0);
+	}
+	return (1);
+}
+
 static int	even_version(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->right_fork.flock));
@@ -33,26 +44,14 @@ static int	even_version(t_philo *philo)
 	}
 	print_log(philo, FORK);
 	pthread_mutex_lock(&(philo->left_fork->flock));
-	if (check_me_tummy(philo))
-	{
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		pthread_mutex_unlock(&(philo->right_fork.flock));
+	if (!check(philo))
 		return (0);
-	}
 	print_log(philo, FORK);
-	if (check_me_tummy(philo))
-	{
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		pthread_mutex_unlock(&(philo->right_fork.flock));
+	if (!check(philo))
 		return (0);
-	}
 	print_log(philo, EATING);
-	if (check_me_tummy(philo))
-	{
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		pthread_mutex_unlock(&(philo->right_fork.flock));
+	if (!check(philo))
 		return (0);
-	}
 	philo->last_meal = get_time();
 	ft_msleep(philo, philo->time->to_eat);
 	pthread_mutex_unlock(&(philo->left_fork->flock));
@@ -71,26 +70,14 @@ static int	odd_version(t_philo *philo)
 	}
 	print_log(philo, FORK);
 	pthread_mutex_lock(&(philo->right_fork.flock));
-	if (check_me_tummy(philo))
-	{
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		pthread_mutex_unlock(&(philo->right_fork.flock));
+	if (!check(philo))
 		return (0);
-	}
 	print_log(philo, FORK);
-	if (check_me_tummy(philo))
-	{
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		pthread_mutex_unlock(&(philo->right_fork.flock));
+	if (!check(philo))
 		return (0);
-	}
 	print_log(philo, EATING);
-	if (check_me_tummy(philo))
-	{
-		pthread_mutex_unlock(&(philo->left_fork->flock));
-		pthread_mutex_unlock(&(philo->right_fork.flock));
+	if (!check(philo))
 		return (0);
-	}
 	philo->last_meal = get_time();
 	ft_msleep(philo, philo->time->to_eat);
 	pthread_mutex_unlock(&(philo->left_fork->flock));

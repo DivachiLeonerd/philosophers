@@ -15,16 +15,14 @@
 static int	checkif_integers(long int *array, int numof_nums)
 {
 	long int	max;
-	long int	min;
 
 	max = INT_MAX;
-	min = INT_MIN;
 	if (!array)
 		return (0);
 	while (numof_nums)
 	{
 		numof_nums--;
-		if (array[numof_nums] > max || array[numof_nums] < min)
+		if (array[numof_nums] > max || array[numof_nums] < 1)
 			return (0);
 	}
 	return (1);
