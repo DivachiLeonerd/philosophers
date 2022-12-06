@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:02:53 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/05 20:19:04 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/06 14:53:54 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,15 @@ void			initialize_datastruct(t_data *data, long *arg_array, int argc);
 void			initialize_timestruct(t_time *time, long *arg_array);
 void			*routine(void *philo);
 unsigned long	get_time(void);
-void			print_log(t_philo *philo, int action);
+int				print_log(t_philo *philo, int action);
 void			free_assets(t_philo *philo_array, long int *arg_array,
 					pthread_t *pthreads);
-void			ft_msleep(unsigned long microseconds);
+void			ft_msleep(t_philo *philo, unsigned long microseconds);
 void			threads_join(pthread_t *thread_array, t_data *data);
 int				isphilo_even(t_philo *philo);
 char			*ft_lutoa(unsigned long n);
 char			*ft_itoa(int n);
-int				looking_to_eat(t_philo *philo);
+int				looking2eat(t_philo *philo);
 int				check_me_tummy(t_philo *philo);
 void			write_template(char *timestamp, char *id);
 void			*routine2(void *philo);

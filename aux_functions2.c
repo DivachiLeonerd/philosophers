@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:40:36 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/05 20:09:47 by afonso           ###   ########.fr       */
+/*   Updated: 2022/12/06 14:40:29 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static int	even_version(t_philo *philo)
 		pthread_mutex_unlock(&(philo->right_fork.flock));
 		return (0);
 	}
-	ft_msleep(philo->time->to_eat);
 	philo->last_meal = get_time();
+	ft_msleep(philo, philo->time->to_eat);
 	pthread_mutex_unlock(&(philo->left_fork->flock));
 	pthread_mutex_unlock(&(philo->right_fork.flock));
 	(philo->times_eaten)++;
@@ -77,24 +77,22 @@ static int	odd_version(t_philo *philo)
 		pthread_mutex_unlock(&(philo->right_fork.flock));
 		return (0);
 	}
-	if (!check_me_tummy(philo))
-		print_log(philo, FORK);
+	print_log(philo, FORK);
 	if (check_me_tummy(philo))
 	{
 		pthread_mutex_unlock(&(philo->left_fork->flock));
 		pthread_mutex_unlock(&(philo->right_fork.flock));
 		return (0);
 	}
-	if (!check_me_tummy(philo))
-		print_log(philo, EATING);
+	print_log(philo, EATING);
 	if (check_me_tummy(philo))
 	{
 		pthread_mutex_unlock(&(philo->left_fork->flock));
 		pthread_mutex_unlock(&(philo->right_fork.flock));
 		return (0);
 	}
-	ft_msleep(philo->time->to_eat);
 	philo->last_meal = get_time();
+	ft_msleep(philo, philo->time->to_eat);
 	pthread_mutex_unlock(&(philo->left_fork->flock));
 	pthread_mutex_unlock(&(philo->right_fork.flock));
 	(philo->times_eaten)++;
