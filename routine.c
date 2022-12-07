@@ -6,7 +6,7 @@
 /*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:23:49 by afonso            #+#    #+#             */
-/*   Updated: 2022/12/06 18:28:38 by atereso-         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:20:10 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*routine(void *philosopher)
 			ft_msleep(philo, philo->time->to_sleep);
 			if (!print_log(philo, THINKING))
 				return (NULL);
-			ft_msleep(philo, 5);
+			ft_msleep(philo, 1);
 		}
 		else
 			break ;
